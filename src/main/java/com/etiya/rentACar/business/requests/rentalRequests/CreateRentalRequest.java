@@ -35,6 +35,6 @@ public class CreateRentalRequest {
 
     private double cityFee;
 
-    private int additionalPropertyId;
+    //private int additionalPropertyId;
 
 }

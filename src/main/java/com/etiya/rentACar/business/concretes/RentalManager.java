@@ -46,13 +46,13 @@ public class RentalManager implements RentalService {
     }
 
     @Override
-    public Result add(CreateRentalRequest createRentalRequest) {
+    public Result add(CreateRentalRequest createRentalRequest,List<Integer>additionalPropertyIdentities) {
 
         carService.checkIfCarAvailable(createRentalRequest.getCarId());
 
         Rental rental = this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
         rental.setReturnDate(null);
-        rental.setTotalPrice(addTotalPrice(createRentalRequest));
+        rental.setTotalPrice(addTotalPrice(createRentalRequest,additionalPropertyIdentities));
         this.rentalDao.save(rental);
 
         UpdateCarStatusRequest updateCarStatusRequest = new UpdateCarStatusRequest();
@@ -81,9 +81,9 @@ public class RentalManager implements RentalService {
     }
 
     @Override
-    public Result update(UpdateRentalRequest updateRentalRequest) {
+    public Result update(UpdateRentalRequest updateRentalRequest,List<Integer>additionalPropertyIdentities) {
         CreateRentalRequest createRentalRequest = this.modelMapperService.forRequest().map(updateRentalRequest, CreateRentalRequest.class);
-        addTotalPrice(createRentalRequest);
+        addTotalPrice(createRentalRequest,additionalPropertyIdentities);
         Rental rental = this.modelMapperService.forRequest().map(updateRentalRequest, Rental.class);
         this.rentalDao.save(rental);
 
@@ -97,12 +97,12 @@ public class RentalManager implements RentalService {
     }
 
 
-    public double addTotalPrice(CreateRentalRequest createRentalRequest) {
+    public double addTotalPrice(CreateRentalRequest createRentalRequest,List<Integer>additionalPropertyIdentities) {
 
             CarDto carDto = this.carService.getById(createRentalRequest.getCarId());
             long dayDiff = diffDates(createRentalRequest);
             double carTotalPrice = dayDiff * carDto.getDailyPrice();
-            double additionalPropertyTotalPrice = dayDiff * additionalPropertyTotal(createRentalRequest);
+            double additionalPropertyTotalPrice = dayDiff * additionalPropertyTotal(additionalPropertyIdentities);
             double cityDiff = checkCity(createRentalRequest);
             return (carTotalPrice + additionalPropertyTotalPrice + cityDiff);
 
@@ -125,11 +125,12 @@ public class RentalManager implements RentalService {
        
     }
 
-    public double additionalPropertyTotal(CreateRentalRequest createRentalRequest) {
+    public double additionalPropertyTotal(List<Integer>additionalPropertyIdentities) {
         double totalPrice = 0;
-        List<ListAdditionalPropertyDto> additionalPropertyDtoList = this.additionalPropertyService.getById(createRentalRequest.getAdditionalPropertyId());
-        for (ListAdditionalPropertyDto item : additionalPropertyDtoList) {
-            totalPrice += item.getDailyPrice();
+      //  List<ListAdditionalPropertyDto> additionalPropertyDtoList = this.additionalPropertyService.getById(createRentalRequest.getAdditionalPropertyId());
+        for (Integer item : additionalPropertyIdentities) {
+        	ListAdditionalPropertyDto result = this.additionalPropertyService.getById(item);
+            totalPrice += result.getDailyPrice();
         }
         return totalPrice;
     }

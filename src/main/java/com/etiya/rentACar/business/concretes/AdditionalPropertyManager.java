@@ -43,21 +43,13 @@ public class AdditionalPropertyManager implements AdditionalPropertyService {
         return new SuccessResult("Additional property added");
     }
 
-    public List<ListAdditionalPropertyDto> selectProperty(int id){
-     List<AdditionalProperty> additionalProperties = this.additionalPropertyDao.getAllById(id);
 
-//        List<ListAdditionalPropertyDto> response = additionalProperties.stream().map(additionalProperty -> this.modelMapperService.forDto()
-//                        .map(additionalProperties, ListAdditionalPropertyDto.class))
-//                .collect(Collectors.toList());
-//        return response;
-        List<ListAdditionalPropertyDto> response = additionalProperties.stream().map(additionalProperty -> this.modelMapperService.forDto()
-                        .map(additionalProperty, ListAdditionalPropertyDto.class))
-                .collect(Collectors.toList());
-        return response;
-    }
 
-    public List<ListAdditionalPropertyDto> getById(int id){
-        List<ListAdditionalPropertyDto> response = selectProperty(id);
-        return response;
+
+
+    public ListAdditionalPropertyDto getById(int id){
+    	AdditionalProperty response = this.additionalPropertyDao.getById(id);
+    	ListAdditionalPropertyDto result = this.modelMapperService.forDto().map(response, ListAdditionalPropertyDto.class);
+        return result;
     }
 }

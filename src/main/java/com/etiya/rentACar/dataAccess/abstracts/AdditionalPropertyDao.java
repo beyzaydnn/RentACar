@@ -10,4 +10,5 @@ import java.util.List;
 public interface AdditionalPropertyDao extends JpaRepository<AdditionalProperty,Integer> {
 
     List<AdditionalProperty> getAllById(int id);
+    AdditionalProperty getById(int id);
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.etiya.rentACar.business.abstracts.RentalService;
@@ -28,11 +29,12 @@ public class RentalsController {
 
     public RentalsController(RentalService rentalService) {
         this.rentalService = rentalService;
+      
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody @Valid CreateRentalRequest createRentalRequest) {
-        return this.rentalService.add(createRentalRequest);
+    public Result add(@RequestBody @Valid CreateRentalRequest createRentalRequest, @RequestParam("AdditionalPropertyIdentity") List<Integer>additionalPropertyIdentities) {
+        return this.rentalService.add(createRentalRequest,additionalPropertyIdentities);
     }
 
 
@@ -42,9 +44,9 @@ public class RentalsController {
     }
 
     @PutMapping("/update")
-    public Result update(@RequestBody @Valid UpdateRentalRequest updateRentalRequest) {
+    public Result update(@RequestBody @Valid UpdateRentalRequest updateRentalRequest,@RequestParam("AdditionalPropertyIdentity") List<Integer>additionalPropertyIdentities) {
 
-        return this.rentalService.update(updateRentalRequest);
+        return this.rentalService.update(updateRentalRequest,additionalPropertyIdentities);
     }
 
     @PutMapping("/updatereturndate")
