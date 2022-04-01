@@ -26,11 +26,8 @@ public class Rental {
     @Column(name="returnDate")
     private LocalDate returnDate;
 
-    @Column(name="rentCity")
-    private String rentCity;
+  
 
-    @Column(name = "deliveryCity")
-    private String deliveryCity;
 
     @Column(name="totalPrice")
     private double totalPrice;
@@ -52,5 +49,21 @@ public class Rental {
     @ManyToOne
     @JoinColumn(name="additionalProperty_id")
     private AdditionalProperty additionalProperty;
+    
+    
+    @ManyToOne
+    @JoinColumn(name="returnCityId",referencedColumnName = "id")
+    private City returnCity;
+    
+    @ManyToOne
+    @JoinColumn(name="rentCityId",referencedColumnName = "id")
+    private City rentCity;
+    
+
+    
+   /* @ManyToOne
+    @JoinColumn(name="city")
+    private City city;*/
+    
 
 }

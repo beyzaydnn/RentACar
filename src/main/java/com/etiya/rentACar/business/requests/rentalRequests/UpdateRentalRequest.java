@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import javax.validation.constraints.NotNull;
 
+import com.etiya.rentACar.entities.City;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -24,9 +25,9 @@ public class UpdateRentalRequest {
     @NotNull
     private int customerId;
     @NotNull
-    private String rentCity;
+    private  int rentCityId;
 
-    private String deliveryCity;
+    private  int returnCityId;
     private double cityFee;
 
 }

@@ -117,10 +117,12 @@ public class RentalManager implements RentalService {
     }
 
     public double checkCity(CreateRentalRequest createRentalRequest) {
-        if (createRentalRequest.getRentCity() != createRentalRequest.getDeliveryCity() ) {
+        if (createRentalRequest.getRentCityId() != createRentalRequest.getReturnCityId() ) {
             return createRentalRequest.getCityFee();
         }
-        return 0;
+        	return 0;
+       
+       
     }
 
     public double additionalPropertyTotal(CreateRentalRequest createRentalRequest) {

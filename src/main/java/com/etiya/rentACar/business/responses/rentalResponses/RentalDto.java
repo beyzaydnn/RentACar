@@ -16,8 +16,8 @@ public class RentalDto {
     private LocalDate returnDate;
     private int carId;
     private int customerId;
-    private String rentCity;
-    private String deliveryCity;
+    private int rentCityId;
+    private int returnCityId;
     private double cityFee;
     private double totalPrice;
 }
